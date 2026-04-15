@@ -64,29 +64,29 @@ bool SerialPort::SetConfiguration(){
 }
 
 ssize_t SerialPort::ReadLine(std::string& line){
-    
-   char buffer[64];
 
-       ssize_t n = read(_fd, buffer, sizeof(buffer) - 1);
+    char buffer[64];
 
-       if(n <= 0) return false;
+    ssize_t n = read(_fd, buffer, sizeof(buffer) - 1);
 
-       buffer[n] = '\0';
-       _acummulator += buffer;
+    if(n <= 0) return false;
 
-       size_t pos;
-       pos = _acummulator.find('\n');
+    buffer[n] = '\0';
+    _acummulator += buffer;
 
-       if(pos == std::string::npos) return false;
+    size_t pos;
+    pos = _acummulator.find('\n');
 
-       line = _acummulator.substr(0, pos);
+    if(pos == std::string::npos) return false;
 
-       if (!line.empty() && line.back() == '\r') {
-           line.pop_back();
-       }
+    line = _acummulator.substr(0, pos);
 
-       _acummulator.erase(0, pos + 1);
-       return true;
+    if (!line.empty() && line.back() == '\r') {
+        line.pop_back();
+    }
+
+    _acummulator.erase(0, pos + 1);
+    return true;
 
 }
 
